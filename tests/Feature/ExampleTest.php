@@ -3,19 +3,17 @@
 namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\Post;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function test_the_application_returns_a_successful_response()
+    public function test_passing_array_as_values_causes_query_exception()
     {
-        $response = $this->get('/');
+        $this->expectException(\Illuminate\Database\QueryException::class);
 
-        $response->assertStatus(200);
+        Post::query()->toBase()->insert([[
+            'tags' => ['foo', 'bar'],
+        ]]);
     }
 }
